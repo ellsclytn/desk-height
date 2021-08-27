@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Is Ellis Standing?</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+</head>
+<body>
+  <h1 id="status">🤔</h1>
+  <p id="details"></p>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const status = document.getElementById('status')
+    const details = document.getElementById('details')
+
+    socket.on('height', (height) => {
+      if (height < 700) {
+        status.textContent = '👎'
+      } else if (height > 950) {
+        status.textContent = '👍'
+      } else {
+        status.textContent = '🤔'
+      }
+
+      details.textContent = `Desk last reported to be at ${height}mm`
+    })
+  </script>
+</body>
+</html>

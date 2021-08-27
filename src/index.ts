@@ -1,16 +1,35 @@
 import WebSocket from 'ws'
 import env from 'env-var'
 import { HomeAssistantMessage } from './types/homeAssistant'
+import express from 'express'
+import { Server } from 'socket.io'
+import http from 'http'
+import path from 'path'
 
 const haHost = env.get('HA_HOST').required().asString()
 const haToken = env.get('HA_ACCESS_TOKEN').required().asString()
 
+const app = express()
 const ws = new WebSocket(`wss://${haHost}/api/websocket`)
+const server = http.createServer(app)
+const io = new Server(server)
 
 const sensorName = 'sensor.desk_height'
 
 let messageId: number = 1
 let deskHeight: number | null = null
+
+io.on('connection', () => {
+  io.emit('height', deskHeight)
+})
+
+app.get('/standing', (_req, res) => {
+  res.sendFile(path.resolve('static/standing.html'))
+})
+
+server.listen(3000, () => {
+  console.log('listening on *:3000')
+})
 
 ws.on('message', function incoming (message) {
   if (message instanceof Buffer) {
@@ -91,6 +110,7 @@ function subscribeToEvents (): void {
 
 function updateDeskHeight (rawHeight: string): void {
   deskHeight = parseInt(rawHeight, 10)
+  io.emit('height', deskHeight)
 
   console.log(deskHeight)
 }

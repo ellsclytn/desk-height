@@ -58,23 +58,3 @@ interface State {
   last_changed: string
   last_updated: string
 }
-
-// const thing = {
-//   id: 2,
-//   type: 'event',
-//   event: {
-//     event_type: 'state_changed',
-//     data: {
-//       entity_id: 'sensor.ellis_s_computer_switch_energy_current',
-//       old_state: [Object],
-//       new_state: [Object]
-//     },
-//     origin: 'LOCAL',
-//     time_fired: '2021-08-27T00:57:08.488935+00:00',
-//     context: {
-//       id: '381b29a8e04e36c33114b19da1f712a5',
-//       parent_id: null,
-//       user_id: null
-//     }
-//   }
-// }
