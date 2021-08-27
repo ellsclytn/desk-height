@@ -8,6 +8,7 @@ import path from 'path'
 
 const haHost = env.get('HA_HOST').required().asString()
 const haToken = env.get('HA_ACCESS_TOKEN').required().asString()
+const port = env.get('PORT').default(3000).asPortNumber()
 
 const app = express()
 const ws = new WebSocket(`wss://${haHost}/api/websocket`)
@@ -27,8 +28,8 @@ app.get('/standing', (_req, res) => {
   res.sendFile(path.resolve('static/standing.html'))
 })
 
-server.listen(3000, () => {
-  console.log('listening on *:3000')
+server.listen(port, () => {
+  console.log(`listening on *:${port}`)
 })
 
 ws.on('message', function incoming (message) {
