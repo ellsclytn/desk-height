@@ -20,8 +20,8 @@ const sensorName = 'sensor.desk_height'
 let messageId: number = 1
 let deskHeight: number | null = null
 
-io.on('connection', () => {
-  io.emit('height', deskHeight)
+io.on('connection', (socket) => {
+  socket.emit('height', deskHeight)
 })
 
 app.get('/standing', (_req, res) => {
