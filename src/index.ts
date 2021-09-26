@@ -15,7 +15,7 @@ const ws = new WebSocket(`wss://${haHost}/api/websocket`)
 const server = http.createServer(app)
 const io = new Server(server)
 
-const sensorName = 'sensor.desk_height'
+const sensorName = env.get('SENSOR_NAME').required().asString()
 
 let messageId: number = 1
 let deskHeight: number | null = null
